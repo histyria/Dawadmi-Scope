@@ -1,0 +1,8 @@
+<select name="DEPARTEMNT" class="form-control" id="id_DEPARTEMNT">
+ 
+    {% for x in data %}
+
+    <option id="{{ x.id }}" value="{{ x.id }}">{{ x.EN_Name }} - {{ x.AR_Name }}</option>
+    
+    {% endfor %}
+  </select>

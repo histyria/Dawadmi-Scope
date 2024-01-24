@@ -1,0 +1,74 @@
+
+
+{% extends 'Home/_base.html' %}
+
+
+{% block content %}
+
+
+
+
+
+
+        
+
+<section class="content">
+    
+    <div class="container-fluid">
+        
+
+        <div class="row clearfix">
+
+
+            
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="card">
+                    <div class="header">
+                        <h2> <strong>OVR</strong> List  </h2>
+                        
+                    </div>
+                    <div class="body table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Location | موقع الحادث</th>
+                                    <th>patient type | تصنيف المريض</th>
+                                    <th>Event type |نوع الحدث</th>
+                                    <th>Injury occurred? | هل من إصابات؟</th>
+                                    <th>Level of Harm |مستوى الضرر</th>
+
+                                    <th> Status |الحالة</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for x in listed  %}
+                                <tr>
+                                    <th scope="row">{{x.id}}</th>
+                                    <td>{{ x.creator_by }}</td>
+                                    <td>{{ x.Location }}</td>
+                                    <td>{{ x.patient_type }}</td>
+                                    <td>{{ x.Event_type }}</td>
+                                    <td>{{ x.Injury_occurred }}</td>
+                                    <td>{{ x.Level_of_Harm }}</td>
+                                    {% if x.state == "Waiting for response" %}
+                                                        <td><span class="badge badge-warning" style="font-size:100%">{{ x.state }}</span></td>
+                                                    {% elif x.state == "Assigned" %}
+                                                        <td><span class="badge badge-success" style="font-size:100%">{{ x.state }}</span></td>
+                                                    {% else %}
+                                                        <td><span class="badge bg-pink" style="font-size:100%">{{ x.state }}</span></td>
+                                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                               
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+         
+    </div>
+</section>
+
+{% endblock %}

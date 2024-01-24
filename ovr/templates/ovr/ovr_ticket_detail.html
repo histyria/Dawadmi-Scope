@@ -1,0 +1,195 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block breadcrumb %}
+<br>
+<div class="container m-3">
+    <div class="row">
+        <div class=" col-12">
+
+            <ol class="breadcrumb ">
+                <li><a href="{%url 'Home:index'%}"><i class="fa fa-home"></i> Home</a></li>
+                <li><a href="{%url 'CONFIDENTIAL_OVR:index'%}"></i> CONFIDENTIAL OVRCONFIDENTIAL</a></li>
+                <li><span href="#"> My Orders</span></li>
+                <li><span href="#"> {{listed.id}}</span></li>
+
+            </ol>
+
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
+
+{% block content %}
+<section class="parallax border-bottom-light box-shadow-active padding-top-0 padding-bottom-0">
+
+    <div class="container">
+
+    </div>
+</section>
+
+<section class="padding-top-medium padding-bottom-large">
+    <div class="container">
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="page-header margin-top-small">
+            <h3>Comments <span class="label label-base">{{replay_count}}</span></h3>
+        </div>
+
+        <ul class="media-list comments">
+            <li class="media">
+                <div class="media-left">
+                    <a class="thumbnail">
+                        {% if user.profile.avatar == '' %}
+                        <img src="{% static 'assets/images/user.png' %}" />
+                        {% else %}
+                        <img class="media-object width-80px height-80px" alt="User" src="{{ user.profile.avatar.url }}">
+                        {% endif %}
+
+                        <a class="btn btn-light btn-block">
+                            <h6 class="media-heading">{{ user.profile }}</h6>
+                        </a>
+                    </a>
+
+                </div>
+                <div class="media-body">
+                    <div class="panel panel-light">
+                        <div class="panel-body">
+
+                            <em><i class="fa fa-clock-o"></i> {{ listed.creator_date }}</em>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+
+                                        <th>Location | موقع الحادث</th>
+                                        <th>patient type | تصنيف المريض</th>
+                                        <th>Event type |نوع الحدث</th>
+                                        <th>Injury occurred? | هل من إصابات؟</th>
+                                        <th>Level of Harm |مستوى الضرر</th>
+
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr>
+                                        <td>{{ listed.Location }}</td>
+                                        <td>{{ listed.patient_type }}</td>
+                                        <td>{{ listed.Event_type }}</td>
+                                        <td>{{ listed.Injury_occurred }}</td>
+                                        <td>{{ listed.Level_of_Harm }}</td>
+
+                                    </tr>
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    {% for rep in rep %}
+                    <div class="media">
+                        <div class="media-left">
+                            <a class="thumbnail">
+                                {% if rep.Replay_User.profile.avatar == '' %}
+                                <img src="{% static 'assets/images/user.png' %}" />
+                                {% else %}
+                                <img class="media-object width-80px height-80px" alt="User"
+                                    src="{{ rep.Replay_User.profile.avatar.url }}">
+                                {% endif %}
+
+                                <a class="btn btn-light btn-block">
+                                    <h6 class="media-heading">{{ rep.Replay_User.profile }}</h6>
+                                </a>
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <div class="panel panel-dark">
+                                <div class="panel-body">
+                                    <h4 class="media-heading">{{rep.Replay_User}}</h4>
+                                    <em><i class="fa fa-clock-o"></i> {{rep.dateTime}}</em>
+                                    <p>{{rep.comment}}</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </li>
+        </ul>
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-8">
+
+                    <div class="col-md-6">
+                
+                        <a  class="btn btn-base btn-lg btn-demo-margin-bottom " data-toggle="modal" data-target=".fadeIn-modal"><i class="fa fa-plus-square"></i> Add Comment</a>
+                    </div>
+                    
+
+                <div class="col-md-4">
+                    <a class="btn btn-secondary btn-lg btn-block" role="button" href="{%url 'Home:index'%}">Back to OVR HOme</a>
+                </div>
+
+                {% block javascript %}
+
+                {% endblock javascript %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="col-md-2 col-sm-4">
+    <!-- Begin: Small modal -->
+    
+
+    <div class="modal fadeIn-modal animate fadeIn" data-animation="fadeIn" tabindex="-1" style="display: none;">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <div class="panel panel-light">
+                        <div class="panel-body">
+                            <h2>Add Commit </h2>
+                            <hr>
+                          
+                            <form method="POST" action="{% url 'CONFIDENTIAL_OVR:view_ticket_ovr' listed.id %}"   enctype="multipart/form-data">
+                               
+                              
+                                <div class="row">
+                                    {% csrf_token %}
+                                    {% for field in CommentForm %}
+                                    <div class="col-md-8 col-sm-6 masnory-item isotope-item">
+                                        <label class="control-label">{{ field.label }}</label>
+                                        <div class="form-group has-success">
+                                            {{ field }}
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                   
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-8 padding-top-0 "></div>
+                                        <div class="col-md-4">
+                                            <div class="col text-center">
+                                                <input type="submit" class="btn btn-success  btn-demo-margin-bottom"
+                                                    value="Save" />
+                                            </div>
+                                        </div>
+                                
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End: Small modal -->
+</div>
+{% endblock %}

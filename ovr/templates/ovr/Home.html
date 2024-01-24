@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block breadcrumb %}
+<br>
+<div class="container m-3">
+    <div class="row">
+        <div class=" col-12">
+
+            <ol class="breadcrumb ">
+                <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+
+            </ol>
+
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
+{% block content %}
+
+<section class="light-bg padding-top-0 padding-bottom-0">
+
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Location | موقع الحادث</th>
+                        <th>patient type | تصنيف المريض</th>
+                        <th>Event type |نوع الحدث</th>
+                        <th>Injury occurred? | هل من إصابات؟</th>
+                        <th>Level of Harm |مستوى الضرر</th>
+
+                        <th> Status |الحالة</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for x in ovr_list  %}
+                    <tr>
+                        <th scope="row">{{x.id}}</th>
+                        <td>{{ x.Location }}</td>
+                        <td>{{ x.patient_type }}</td>
+                        <td>{{ x.Event_type }}</td>
+                        <td>{{ x.Injury_occurred }}</td>
+                        <td>{{ x.Level_of_Harm }}</td>
+                        {% if x.state == "Waiting for response" %}
+                                            <td><span class="badge badge-warning" style="font-size:100%">{{ x.state }}</span></td>
+                                        {% elif x.state == "Answered" %}
+                                            <td><span class="badge badge-success" style="font-size:100%">{{ x.state }}</span></td>
+                                        {% else %}
+                                            <td><span class="badge bg-pink" style="font-size:100%">{{ x.state }}</span></td>
+                                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                   
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+</section>
+{% endblock %}

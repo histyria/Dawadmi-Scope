@@ -1,0 +1,107 @@
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title> Login </title>
+
+    <link rel="shortcut icon" href="{%static 'assets/images/fav.jpg'%}">
+    <link rel="stylesheet" href="{%static 'assets/css/bootstrap.min.css'%}">
+    <link rel="stylesheet" href="{%static 'assets/css/fontawsom-all.min.css'%}">
+    <link rel="stylesheet" type="text/css" href="{%static 'assets/css/styles_usr.css'%}" />
+</head>
+
+<body>
+    <div class="container-fluid ">
+        
+                <div class=" no-pdding login-box">
+                    <div class="row no-margin w-100 bklmj">
+                        <div class="col-lg-6 col-md-6 log-det">
+                            
+                            <h2>Login</h2>
+                            <br>
+                           
+                            <div class="row no-margin past">
+                            </div>
+                            <form method="POST">
+                                {% csrf_token %}
+                                
+
+
+                            <div class="text-box-cont">
+                                {% for field in form %}  
+
+                                <h6>{{ field.label }}</h6>
+                                <div class="row  past">
+                                    
+                                    <div class="input-group mb-3 mt-2">
+                                        
+                                        {{ field }}
+                                    </div>
+                                    {% if field.errors %}
+                                        
+                                    <div id="form_errors">
+                                        <label role="alert" class="alert alert-danger alert-dismissible small mb-1">{{ field.errors }}</label>
+                                         
+                                       
+                                    </div>
+                                   
+                              
+                                {% endif %}
+                                </div>
+                               
+                                {% endfor %}
+                                 
+                              
+                                <div class="right-bkij mb-3">
+                                    <button type="submit"  class="btn btn-success btn-round">sign up</button>
+                                </div>  
+                                <br> 
+                                
+                            </div>
+                            
+                        </form>
+                             
+
+                        </div>
+                        <div class="col-lg-6 col-md-6 box-de">
+                            <div class="ditk-inf">
+                                <h2 class="w-100">Welcome Back </h2>
+                                <p>Dont Have an Account?</p>
+                                <button type="button" class="btn btn-outline-light">Sign in</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+       
+</body>
+
+<script src="{%static 'assets/js/jquery-3.2.1.min.js'%}"></script>
+<script src="{%static 'assets/js/popper.min.js'%}"></script>
+<script src="{%static 'assets/js/bootstrap.min.js'%}"></script>
+<script src="{%static 'assets/js/script.js'%}"></script>
+<script>
+    $("#id_Site_id").change(function () {
+      var id_Site_id = $(this).val();
+     
+      $.ajax({
+        url: "{% url 'users:Get_Departement' %}",
+        data: {
+          'id_Site_id': id_Site_id
+        },
+
+        success: function (data) {
+            
+           
+            $("#id_DEPARTEMNT").html(data);  
+        }
+
+      });
+    });
+
+  </script>
+
+
+</html>

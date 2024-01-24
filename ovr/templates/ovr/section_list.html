@@ -1,0 +1,129 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block breadcrumb %}
+<br>
+<div class="container m-3">
+    <div class="row">
+        <div class=" col-12">
+
+            <ol class="breadcrumb ">
+                <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+                <li><a href="#"></i> CONFIDENTIAL OVRCONFIDENTIAL</a></li>
+                <li><span href="#"> My Orders</span></li>
+
+            </ol>
+
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
+{% block content %}
+
+<section>
+
+    <div class="container-fluid padding-right-large padding-left-large  padding-top-large padding-bottom-large">
+        
+        <div class="row">
+            <div class="col-md-6">
+                
+                <a  class="btn btn-base btn-lg btn-demo-margin-bottom " data-toggle="modal" data-target=".fadeIn-modal"><i class="fa fa-plus-square"></i> New OVR</a>
+            </div>
+                            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>bY uSER</th>
+                        <th>Location | موقع الحادث</th>
+                        <th>patient type | تصنيف المريض</th>
+                        <th>Event type |نوع الحدث</th>
+                        <th>Injury occurred? | هل من إصابات؟</th>
+                        <th>Level of Harm |مستوى الضرر</th>
+                        <th> Status</th>
+                        <th> action</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for x in by_sec  %}
+                    <tr>
+                        <th scope="row">{{x.id}}</th>
+                        <td>{{ x.creator_by }}</td>
+                        <td>{{ x.Location }}</td>
+                        <td>{{ x.patient_type }}</td>
+                        <td>{{ x.Event_type }}</td>
+                        <td>{{ x.Injury_occurred }}</td>
+                        <td>{{ x.Level_of_Harm }}</td>
+                        {% if x.state == "Waiting for response" %}
+                                                        <td><span class="alert alert-warning" style="font-size:100%">{{ x.state }}</span></td>
+                                                    {% elif x.state == "Answered" %}
+                                                        <td><span class="alert alert-success" style="font-size:100%">{{ x.state }}</span></td>
+                                                    {% else %}
+                                                        <td><span class="alert alert-warning" style="font-size:100%">{{ x.state }}</span></td>
+                                                    {% endif %}
+                        <td><a class="btn btn-outline-primary mb-3" href="{{ x.get_absolute_url }}" role="button">View</a></td>
+                    </tr>
+                    {% endfor %}
+                   
+                </tbody>
+            </table>
+            
+            
+        </div>
+    </div>
+   
+
+<div class="col-md-2 col-sm-4">
+    <!-- Begin: Small modal -->
+    
+
+    <div class="modal fadeIn-modal animate fadeIn" data-animation="fadeIn" tabindex="-1" style="display: none;">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <div class="panel panel-light">
+                        <div class="panel-body">
+                            <h2>Create New </h2>
+                            <hr>
+                          
+                            <form method="POST" action="{% url 'CONFIDENTIAL_OVR:OVR_create_view' %}"   enctype="multipart/form-data">
+                               
+                              
+                                <div class="row">
+                                    {% csrf_token %}
+                                    {% for field in form %}
+                                    <div class="col-md-6 col-sm-6 masnory-item isotope-item">
+                                        <label class="control-label">{{ field.label }}</label>
+                                        <div class="form-group has-success">
+                                            {{ field }}
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                   
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-8 padding-top-0 "></div>
+                                        <div class="col-md-4">
+                                            <div class="col text-center">
+                                                <input type="submit" class="btn btn-success  btn-demo-margin-bottom"
+                                                    value="Save" />
+                                            </div>
+                                        </div>
+                                
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End: Small modal -->
+</div>
+</section>
+    
+
+{% endblock %}
